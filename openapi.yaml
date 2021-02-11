@@ -1,0 +1,60 @@
+openapi: '3.0.2'
+info:
+  title: user-service
+  version: '1.0'
+paths:
+  /user:
+    get:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserList"
+    post:
+      responses:
+        '201':
+          description: created
+      requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+  /user/{id}:
+    get: 
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        '404':
+          description: Not Found
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+          required: true
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        name:
+          type: string
+        id:
+          type: integer
+      required:
+        - "name"
+    UserList:
+      type: object
+      properties:
+        count:
+          type: integer
+        users:
+          type: array
+          items:
+            $ref: "#/components/schemas/User"
