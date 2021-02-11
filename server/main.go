@@ -13,7 +13,7 @@ import (
 	"log"
 	"net/http"
 
-	openapi "github.com/GIT_USER_ID/GIT_REPO_ID/go"
+	openapi "github.com/craftlab-demo-tests/user-service/go"
 )
 
 func main() {

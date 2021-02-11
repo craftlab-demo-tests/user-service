@@ -12,53 +12,56 @@ package openapi
 import (
 	"context"
 	"net/http"
-	"errors"
 )
 
 // DefaultApiService is a service that implents the logic for the DefaultApiServicer
-// This service should implement the business logic for every endpoint for the DefaultApi API. 
+// This service should implement the business logic for every endpoint for the DefaultApi API.
 // Include any external packages or services that will be required by this service.
 type DefaultApiService struct {
+	users map[int32]User
 }
 
 // NewDefaultApiService creates a default api service
 func NewDefaultApiService() DefaultApiServicer {
-	return &DefaultApiService{}
+	return &DefaultApiService{
+		users: make(map[int32]User),
+	}
 }
 
-// UserGet - 
+type UserGetResponse struct {
+	Count    int32
+	UserList UserList
+}
+
+// UserGet -
 func (s *DefaultApiService) UserGet(ctx context.Context) (ImplResponse, error) {
-	// TODO - update UserGet with the required logic for this service method.
-	// Add api_default_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 
-	//TODO: Uncomment the next line to return response Response(200, UserList{}) or use other options such as http.Ok ...
-	//return Response(200, UserList{}), nil
+	res := UserList{
+		Count: int32(len(s.users)),
+	}
+	for _, u := range s.users {
+		res.Users = append(res.Users, u)
+	}
 
-	return Response(http.StatusNotImplemented, nil), errors.New("UserGet method not implemented")
+	return Response(http.StatusOK, res), nil
 }
 
-// UserIdGet - 
+// UserIdGet -
 func (s *DefaultApiService) UserIdGet(ctx context.Context, id int32) (ImplResponse, error) {
-	// TODO - update UserIdGet with the required logic for this service method.
-	// Add api_default_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 
-	//TODO: Uncomment the next line to return response Response(200, User{}) or use other options such as http.Ok ...
-	//return Response(200, User{}), nil
+	user, ok := s.users[id]
+	if !ok {
+		return Response(http.StatusNotFound, nil), nil
+	}
 
-	//TODO: Uncomment the next line to return response Response(404, {}) or use other options such as http.Ok ...
-	//return Response(404, nil),nil
-
-	return Response(http.StatusNotImplemented, nil), errors.New("UserIdGet method not implemented")
+	return Response(http.StatusOK, user), nil
 }
 
-// UserPost - 
+// UserPost -
 func (s *DefaultApiService) UserPost(ctx context.Context, user User) (ImplResponse, error) {
-	// TODO - update UserPost with the required logic for this service method.
-	// Add api_default_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
+	len := int32(len(s.users))
+	user.Id = len + 1
+	s.users[user.Id] = user
 
-	//TODO: Uncomment the next line to return response Response(201, {}) or use other options such as http.Ok ...
-	//return Response(201, nil),nil
-
-	return Response(http.StatusNotImplemented, nil), errors.New("UserPost method not implemented")
+	return Response(http.StatusCreated, nil), nil
 }
-
