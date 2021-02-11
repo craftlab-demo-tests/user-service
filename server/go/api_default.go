@@ -24,12 +24,12 @@ type DefaultApiController struct {
 
 // NewDefaultApiController creates a default api controller
 func NewDefaultApiController(s DefaultApiServicer) Router {
-	return &DefaultApiController{ service: s }
+	return &DefaultApiController{service: s}
 }
 
 // Routes returns all of the api route for the DefaultApiController
 func (c *DefaultApiController) Routes() Routes {
-	return Routes{ 
+	return Routes{
 		{
 			"UsersGet",
 			strings.ToUpper("Get"),
@@ -51,8 +51,8 @@ func (c *DefaultApiController) Routes() Routes {
 	}
 }
 
-// UsersGet - 
-func (c *DefaultApiController) UsersGet(w http.ResponseWriter, r *http.Request) { 
+// UsersGet -
+func (c *DefaultApiController) UsersGet(w http.ResponseWriter, r *http.Request) {
 	result, err := c.service.UsersGet(r.Context())
 	//If an error occured, encode the error with the status code
 	if err != nil {
@@ -61,18 +61,18 @@ func (c *DefaultApiController) UsersGet(w http.ResponseWriter, r *http.Request) 
 	}
 	//If no error, encode the body and the result code
 	EncodeJSONResponse(result.Body, &result.Code, w)
-	
+
 }
 
-// UsersIdGet - 
-func (c *DefaultApiController) UsersIdGet(w http.ResponseWriter, r *http.Request) { 
+// UsersIdGet -
+func (c *DefaultApiController) UsersIdGet(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	id, err := parseInt32Parameter(params["id"])
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	
+
 	result, err := c.service.UsersIdGet(r.Context(), id)
 	//If an error occured, encode the error with the status code
 	if err != nil {
@@ -81,17 +81,17 @@ func (c *DefaultApiController) UsersIdGet(w http.ResponseWriter, r *http.Request
 	}
 	//If no error, encode the body and the result code
 	EncodeJSONResponse(result.Body, &result.Code, w)
-	
+
 }
 
-// UsersPost - 
-func (c *DefaultApiController) UsersPost(w http.ResponseWriter, r *http.Request) { 
+// UsersPost -
+func (c *DefaultApiController) UsersPost(w http.ResponseWriter, r *http.Request) {
 	user := &User{}
 	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	
+
 	result, err := c.service.UsersPost(r.Context(), *user)
 	//If an error occured, encode the error with the status code
 	if err != nil {
@@ -100,5 +100,5 @@ func (c *DefaultApiController) UsersPost(w http.ResponseWriter, r *http.Request)
 	}
 	//If no error, encode the body and the result code
 	EncodeJSONResponse(result.Body, &result.Code, w)
-	
+
 }
