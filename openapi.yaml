@@ -3,7 +3,7 @@ info:
   title: user-service
   version: '1.0'
 paths:
-  /user:
+  /users:
     get:
       responses:
         '200':
@@ -21,7 +21,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/User"
-  /user/{id}:
+  /users/{id}:
     get: 
       responses:
         '200':

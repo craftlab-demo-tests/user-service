@@ -33,8 +33,8 @@ type UserGetResponse struct {
 	UserList UserList
 }
 
-// UserGet -
-func (s *DefaultApiService) UserGet(ctx context.Context) (ImplResponse, error) {
+// UsersGet -
+func (s *DefaultApiService) UsersGet(ctx context.Context) (ImplResponse, error) {
 
 	res := UserList{
 		Count: int32(len(s.users)),
@@ -46,8 +46,8 @@ func (s *DefaultApiService) UserGet(ctx context.Context) (ImplResponse, error) {
 	return Response(http.StatusOK, res), nil
 }
 
-// UserIdGet -
-func (s *DefaultApiService) UserIdGet(ctx context.Context, id int32) (ImplResponse, error) {
+// UsersIdGet -
+func (s *DefaultApiService) UsersIdGet(ctx context.Context, id int32) (ImplResponse, error) {
 
 	user, ok := s.users[id]
 	if !ok {
@@ -57,8 +57,8 @@ func (s *DefaultApiService) UserIdGet(ctx context.Context, id int32) (ImplRespon
 	return Response(http.StatusOK, user), nil
 }
 
-// UserPost -
-func (s *DefaultApiService) UserPost(ctx context.Context, user User) (ImplResponse, error) {
+// UsersPost -
+func (s *DefaultApiService) UsersPost(ctx context.Context, user User) (ImplResponse, error) {
 	len := int32(len(s.users))
 	user.Id = len + 1
 	s.users[user.Id] = user

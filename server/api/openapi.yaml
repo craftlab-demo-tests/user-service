@@ -5,7 +5,7 @@ info:
 servers:
 - url: /
 paths:
-  /user:
+  /users:
     get:
       responses:
         "200":
@@ -23,7 +23,7 @@ paths:
       responses:
         "201":
           description: created
-  /user/{id}:
+  /users/{id}:
     get:
       parameters:
       - explode: false

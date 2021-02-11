@@ -31,29 +31,29 @@ func NewDefaultApiController(s DefaultApiServicer) Router {
 func (c *DefaultApiController) Routes() Routes {
 	return Routes{ 
 		{
-			"UserGet",
+			"UsersGet",
 			strings.ToUpper("Get"),
-			"/user",
-			c.UserGet,
+			"/users",
+			c.UsersGet,
 		},
 		{
-			"UserIdGet",
+			"UsersIdGet",
 			strings.ToUpper("Get"),
-			"/user/{id}",
-			c.UserIdGet,
+			"/users/{id}",
+			c.UsersIdGet,
 		},
 		{
-			"UserPost",
+			"UsersPost",
 			strings.ToUpper("Post"),
-			"/user",
-			c.UserPost,
+			"/users",
+			c.UsersPost,
 		},
 	}
 }
 
-// UserGet - 
-func (c *DefaultApiController) UserGet(w http.ResponseWriter, r *http.Request) { 
-	result, err := c.service.UserGet(r.Context())
+// UsersGet - 
+func (c *DefaultApiController) UsersGet(w http.ResponseWriter, r *http.Request) { 
+	result, err := c.service.UsersGet(r.Context())
 	//If an error occured, encode the error with the status code
 	if err != nil {
 		EncodeJSONResponse(err.Error(), &result.Code, w)
@@ -64,8 +64,8 @@ func (c *DefaultApiController) UserGet(w http.ResponseWriter, r *http.Request) {
 	
 }
 
-// UserIdGet - 
-func (c *DefaultApiController) UserIdGet(w http.ResponseWriter, r *http.Request) { 
+// UsersIdGet - 
+func (c *DefaultApiController) UsersIdGet(w http.ResponseWriter, r *http.Request) { 
 	params := mux.Vars(r)
 	id, err := parseInt32Parameter(params["id"])
 	if err != nil {
@@ -73,7 +73,7 @@ func (c *DefaultApiController) UserIdGet(w http.ResponseWriter, r *http.Request)
 		return
 	}
 	
-	result, err := c.service.UserIdGet(r.Context(), id)
+	result, err := c.service.UsersIdGet(r.Context(), id)
 	//If an error occured, encode the error with the status code
 	if err != nil {
 		EncodeJSONResponse(err.Error(), &result.Code, w)
@@ -84,15 +84,15 @@ func (c *DefaultApiController) UserIdGet(w http.ResponseWriter, r *http.Request)
 	
 }
 
-// UserPost - 
-func (c *DefaultApiController) UserPost(w http.ResponseWriter, r *http.Request) { 
+// UsersPost - 
+func (c *DefaultApiController) UsersPost(w http.ResponseWriter, r *http.Request) { 
 	user := &User{}
 	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 	
-	result, err := c.service.UserPost(r.Context(), *user)
+	result, err := c.service.UsersPost(r.Context(), *user)
 	//If an error occured, encode the error with the status code
 	if err != nil {
 		EncodeJSONResponse(err.Error(), &result.Code, w)
