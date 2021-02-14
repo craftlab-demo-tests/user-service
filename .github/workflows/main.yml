@@ -38,4 +38,4 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: ${{secrets.HUB_DOCKER_NAME}}/$PROJECT_NAME:$GITHUB_SHA
+          tags: "${{secrets.HUB_DOCKER_NAME}}/$PROJECT_NAME:$GITHUB_SHA"
