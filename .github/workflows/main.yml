@@ -26,8 +26,9 @@ jobs:
       - name: echo
         run: echo $PROJECT_NAME
 
-      - uses: olegtarasov/get-tag@v2.1
+      - name: Get the version
         id: tag
+        run: echo ::set-output name=tag::$(echo $GITHUB_REF | cut -d / -f 3)
 
       - name: build docker image
         run: docker build -t "${{secrets.HUB_DOCKER_NAME}}/$PROJECT_NAME:${{steps.tag.outputs.tag}}"" ./server/
