@@ -27,4 +27,4 @@ jobs:
           push: true
           tags: | 
             "${{secrets.HUB_DOCKER_NAME}}/${{env.PROJECT_NAME}}:${{github.sha}}"
-            latest
+            "${{secrets.HUB_DOCKER_NAME}}/${{env.PROJECT_NAME}}:latest"
